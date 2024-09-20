@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        main {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-field {
+            margin-bottom: 10px;
+        }
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="input-field">
+          <label for="texto">Escribe algo:</label>
+          <input type="text" id="texto" placeholder="Escribe aquí...">
+        </div>
+        <p>Texto invertido: <span id="textoInvertido"></span></p>
+      </main>
+
+    <script>
+        const Utils = (() => {
+            const reverseString = (str) => {
+                return str.split('').reverse().join('');
+            };
+
+            return{
+                reverseString,
+            };
+        })();
+
+        const App = ((Utils) => {
+            const htmlElement = {
+                inputField: document.getElementById('texto'),
+                spanElement: document.getElementById('textoInvertido'),
+            };
+
+            const handlers = {
+                onInput(event) {
+                    const invertedText = Utils.reverseString(event.target.value);
+                    htmlElement.spanElement.textContent = invertedText;
+                },
+            };
+
+            const bindEvents = () => {
+                htmlElement.inputField.addEventListener('input',handlers.onInput);
+            };
+
+            return{
+                init() {
+                    bindEvents();
+                },
+            };
+        })(Utils);
+
+        App.init();
+    </script>
+</body>
+</html>
