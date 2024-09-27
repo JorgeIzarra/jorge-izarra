@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 5</title>
+    <style>
+        .black { color: black; }
+        .red { color: red; }
+        .blue { color: blue; }
+        .green { color: green; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        main {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-field {
+            margin-bottom: 10px;
+        }
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <main role="main">
+        <div class="input-field">
+            Escribe algo:
+        </div>
+
+        <div class="color-field">
+            Selecciona un color para el texto:
+        </div>
+
+        Texto invertido: <span id="textoInvertido"></span>
+    </main>
+    <script type="module">
+        const templates = {
+            black: text => `<span class="black">${text}</span>`,
+            red: text => `<span class="red">${text}</span>`,
+            blue: text => `<span class="blue">${text}</span>`,
+            green: text => `<span class="green">${text}</span>`
+        };
+
+        function inicializar() {
+            const inputField = document.querySelector('.input-field');
+            const colorField = document.querySelector('.color-field');
+            const textoInvertidoSpan = document.getElementById('textoInvertido');
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            inputField.appendChild(input);
+
+            const select = document.createElement('select');
+            ['black', 'red', 'blue', 'green'].forEach(color => {
+                const option = document.createElement('option');
+                option.value = color;
+                option.textContent = color.charAt(0).toUpperCase() + color.slice(1);
+                select.appendChild(option);
+            });
+            colorField.appendChild(select);
+
+            function actualizarTextoInvertido() {
+                const texto = input.value;
+                const color = select.value;
+                const textoInvertido = texto.split('').reverse().join('');
+                textoInvertidoSpan.innerHTML = templates[color](textoInvertido);
+            }
+
+            input.addEventListener('input', actualizarTextoInvertido);
+            select.addEventListener('change', actualizarTextoInvertido);
+        }
+
+        inicializar();
+    </script>
+</body>
+</html>
